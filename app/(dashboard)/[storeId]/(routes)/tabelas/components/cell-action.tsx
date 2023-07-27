@@ -14,13 +14,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { useCategoryModal } from "@/hooks/use-category-modal";
 import { AlertModal } from "@/components/modals/alert-modal";
 
-import { CategoryColumn } from "./columns";
+import { TabelaColumn } from "./columns";
 
 interface CellActionProps {
-  data: CategoryColumn;
+  data: TabelaColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({
@@ -34,11 +33,11 @@ export const CellAction: React.FC<CellActionProps> = ({
   const onConfirm = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/categories/${data.id}`);
-      toast.success('Categoria deletada.');
+      await axios.delete(`/api/${params.storeId}/tabelas/${data.id}`);
+      toast.success('tabela deleted.');
       router.refresh();
     } catch (error) {
-      toast.error('Tenha certeza que você excluiu todos os produtos que utilizam essa categoria antes.');
+      toast.error('Tenha certeza que você removeu todos os produtos que usam esse tabela antes.');
     } finally {
       setOpen(false);
       setLoading(false);
@@ -47,7 +46,7 @@ export const CellAction: React.FC<CellActionProps> = ({
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
-    toast.success('Categoria copiada.');
+    toast.success('Id do tabela copiado.');
   }
 
   return (
@@ -73,7 +72,7 @@ export const CellAction: React.FC<CellActionProps> = ({
             <Copy className="mr-2 h-4 w-4" /> Copiar Id
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => router.push(`/${params.storeId}/categories/${data.id}`)}
+            onClick={() => router.push(`/${params.storeId}/tabelas/${data.id}`)}
           >
             <Edit className="mr-2 h-4 w-4" /> Editar
           </DropdownMenuItem>

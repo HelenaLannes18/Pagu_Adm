@@ -123,7 +123,7 @@ export const ColorForm: React.FC<ColorFormProps> = ({
                 <FormItem>
                   <FormLabel>Nome</FormLabel>
                   <FormControl>
-                    <Input disabled={loading} placeholder="Color name" {...field} />
+                    <Input disabled={loading} placeholder="Nome da cor" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

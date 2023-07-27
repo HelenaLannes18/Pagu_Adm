@@ -1,6 +1,6 @@
 import prismadb from "@/lib/prismadb";
 
-import { ProductForm } from "./components/product-form";
+import { ProductForm } from "./components/promotion-form";
 
 const ProductPage = async ({
   params
@@ -28,12 +28,6 @@ const ProductPage = async ({
     },
   });
 
-  const tabelas = await prismadb.tabela.findMany({
-    where: {
-      storeId: params.storeId,
-    },
-  });
-
   const colors = await prismadb.color.findMany({
     where: {
       storeId: params.storeId,
@@ -47,7 +41,6 @@ const ProductPage = async ({
           categories={categories}
           colors={colors}
           sizes={sizes}
-          tabelas={tabelas}
           initialData={product}
         />
       </div>

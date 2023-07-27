@@ -9,13 +9,13 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { ApiList } from "@/components/ui/api-list";
 
-import { columns, SizeColumn } from "./columns";
+import { columns, TabelaColumn } from "./columns";
 
-interface SizesClientProps {
-  data: SizeColumn[];
+interface TabelasClientProps {
+  data: TabelaColumn[];
 }
 
-export const SizesClient: React.FC<SizesClientProps> = ({
+export const TabelasClient: React.FC<TabelasClientProps> = ({
   data
 }) => {
   const params = useParams();
@@ -24,8 +24,8 @@ export const SizesClient: React.FC<SizesClientProps> = ({
   return (
     <>
       <div className="flex items-center justify-between">
-        <Heading title={`Sizes (${data.length})`} description="Controle os tamanhos dos seus produtos" />
-        <Button onClick={() => router.push(`/${params.storeId}/sizes/new`)}>
+        <Heading title={`Tabelas (${data.length})`} description="Controle os tamanhos dos seus produtos" />
+        <Button onClick={() => router.push(`/${params.storeId}/tabelas/new`)}>
           <Plus className="mr-2 h-4 w-4" /> Adicionar novo
         </Button>
       </div>

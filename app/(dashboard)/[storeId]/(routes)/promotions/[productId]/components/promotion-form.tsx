@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "react-hot-toast"
 import { Trash } from "lucide-react"
-import { Category, Color, Image, Product, Size, Tabela } from "@prisma/client"
+import { Category, Color, Image, Product, Size } from "@prisma/client"
 import { useParams, useRouter } from "next/navigation"
 
 import { Input } from "@/components/ui/input"
@@ -35,8 +35,8 @@ const formSchema = z.object({
   categoryId: z.string().min(1),
   colorId: z.string().min(1),
   sizeId: z.string().min(1),
-  tabelaId: z.string().min(1),
   isFeatured: z.boolean().default(false).optional(),
+  isPromotioned: z.boolean().default(false).optional(),
   isArchived: z.boolean().default(false).optional()
 });
 
@@ -49,14 +49,12 @@ interface ProductFormProps {
   categories: Category[];
   colors: Color[];
   sizes: Size[];
-  tabelas: Tabela[];
 };
 
 export const ProductForm: React.FC<ProductFormProps> = ({
   initialData,
   categories,
   sizes,
-  tabelas,
   colors
 }) => {
   const params = useParams();
@@ -65,10 +63,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? 'Editar Produto' : 'Criar Produto';
-  const description = initialData ? 'Editar um produto.' : 'Adicionar um novo produto.';
+  const title = initialData ? 'Colocar em Promoção' : 'Criar Produto';
+  const description = initialData ? 'Colocar um produto em promoção.' : 'Adicionar um novo produto.';
   const toastMessage = initialData ? 'Produto atualizado.' : 'Produto criado.';
-  const action = initialData ? 'Salvar alterações' : 'Criar';
+  const action = initialData ? 'Salvar promoção' : 'Criar';
 
   const defaultValues = initialData ? {
     ...initialData,
@@ -80,8 +78,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     categoryId: '',
     colorId: '',
     sizeId: '',
-    tabelaId: '',
     isFeatured: false,
+    isPromotional: false,
     isArchived: false,
   }
 
@@ -152,7 +150,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             name="images"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Imagens</FormLabel>
+                <FormLabel>Imagens Promocionais</FormLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value.map((image) => image.url)}
@@ -171,7 +169,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nome</FormLabel>
+                  <FormLabel>Nome Promocional</FormLabel>
                   <FormControl>
                     <Input disabled={loading} placeholder="Nome do produto" {...field} />
                   </FormControl>
@@ -184,7 +182,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               name="price"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Preço</FormLabel>
+                  <FormLabel>Preço Promocional</FormLabel>
                   <FormControl>
                     <Input type="number" disabled={loading} placeholder="9.99" {...field} />
                   </FormControl>
@@ -192,98 +190,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="categoryId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Categoria</FormLabel>
-                  <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue defaultValue={field.value} placeholder="Selecione uma categoria" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {categories.map((category) => (
-                        <SelectItem key={category.id} value={category.id}>{category.name}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="sizeId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Tamanho</FormLabel>
-                  <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue defaultValue={field.value} placeholder="Selecione um tamanho" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {sizes.map((size) => (
-                        <SelectItem key={size.id} value={size.id}>{size.name}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
 
-
-
-            <FormField
-              control={form.control}
-              name="colorId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Cor</FormLabel>
-                  <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue defaultValue={field.value} placeholder="Selecione uma cor" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {colors.map((color) => (
-                        <SelectItem key={color.id} value={color.id}>{color.name}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="tabelaId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Tabela</FormLabel>
-                  <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue defaultValue={field.value} placeholder="Selecione uma tabela" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {tabelas.map((tabela) => (
-                        <SelectItem key={tabela.id} value={tabela.id}>{tabela.name}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="isFeatured"
@@ -307,6 +214,31 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="isPromotioned"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      // @ts-ignore
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>
+                      Promocional
+                    </FormLabel>
+                    <FormDescription>
+                      Esse produto vai aparecer nas seções promocionais da sua loja.
+                    </FormDescription>
+                  </div>
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="isArchived"
