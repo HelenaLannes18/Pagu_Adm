@@ -22,18 +22,18 @@ export const ProductsClient: React.FC<ProductsClientProps> = ({
   const router = useRouter();
 
   return (
-    <> 
+    <>
       <div className="flex items-center justify-between">
-        <Heading title={`Products (${data.length})`} description="Manage products for your store" />
+        <Heading title={`Produtos (${data.length})`} description="Controle os produtos da sua loja" />
         <Button onClick={() => router.push(`/${params.storeId}/products/new`)}>
-          <Plus className="mr-2 h-4 w-4" /> Add New
+          <Plus className="mr-2 h-4 w-4" /> Adicionar Novo
         </Button>
       </div>
       <Separator />
       <DataTable searchKey="name" columns={columns} data={data} />
-      <Heading title="API" description="API Calls for Products" />
+      {/* <Heading title="API" description="API Calls for Products" />
       <Separator />
-      <ApiList entityName="products" entityIdName="productId" />
+      <ApiList entityName="products" entityIdName="productId" /> */}
     </>
   );
 };

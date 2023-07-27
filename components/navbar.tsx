@@ -19,7 +19,7 @@ const Navbar = async () => {
     }
   });
 
-  return ( 
+  return (
     <div className="border-b">
       <div className="flex h-16 items-center px-4">
         <StoreSwitcher items={stores} />
@@ -32,5 +32,5 @@ const Navbar = async () => {
     </div>
   );
 };
- 
+
 export default Navbar;

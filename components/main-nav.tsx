@@ -5,55 +5,33 @@ import { useParams, usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils"
 
-export function MainNav({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLElement>) {
+export function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname();
   const params = useParams();
 
-  const routes = [
-    {
-      href: `/${params.storeId}`,
-      label: 'Overview',
-      active: pathname === `/${params.storeId}`,
-    },
-    {
-      href: `/${params.storeId}/billboards`,
-      label: 'Billboards',
-      active: pathname === `/${params.storeId}/billboards`,
-    },
-    {
-      href: `/${params.storeId}/categories`,
-      label: 'Categories',
-      active: pathname === `/${params.storeId}/categories`,
-    },
-    {
-      href: `/${params.storeId}/sizes`,
-      label: 'Sizes',
-      active: pathname === `/${params.storeId}/sizes`,
-    },
-    {
-      href: `/${params.storeId}/colors`,
-      label: 'Colors',
-      active: pathname === `/${params.storeId}/colors`,
-    },
-    {
-      href: `/${params.storeId}/products`,
-      label: 'Products',
-      active: pathname === `/${params.storeId}/products`,
-    },
-    {
-      href: `/${params.storeId}/orders`,
-      label: 'Orders',
-      active: pathname === `/${params.storeId}/orders`,
-    },
-    {
-      href: `/${params.storeId}/settings`,
-      label: 'Settings',
-      active: pathname === `/${params.storeId}/settings`,
-    },
-  ]
+  //@ts-ignore
+  function generateRoute(path, label, params, pathname) {
+    return {
+      href: `/${params?.storeId}${path}`,
+      label,
+      active: pathname === `/${params?.storeId}${path}`,
+    };
+  }
+
+  const routesConfig = [
+    { path: "", label: "Dashboard" },
+    { path: "/billboards", label: "Coleções" },
+    { path: "/categories", label: "Categorias" },
+    { path: "/sizes", label: "Tamanhos" },
+    { path: "/colors", label: "Cores" },
+    { path: "/products", label: "Produtos" },
+    { path: "/orders", label: "Pedidos" },
+    { path: "/settings", label: "Configurações" },
+  ];
+
+  const routes = routesConfig.map((config) =>
+    generateRoute(config.path, config.label, params, pathname)
+  );
 
   return (
     <nav
@@ -64,13 +42,19 @@ export function MainNav({
         <Link
           key={route.href}
           href={route.href}
-          className={cn(
-            'text-sm font-medium transition-colors hover:text-primary',
-            route.active ? 'text-black dark:text-white' : 'text-muted-foreground'
-          )}
+          passHref
+          legacyBehavior
         >
-          {route.label}
-      </Link>
+          <a
+            className={cn(
+              "text-sm font-medium transition-colors hover:text-primary",
+              route.active ? "text-black dark:text-white" : "text-muted-foreground"
+            )}
+          >
+            {route.label}
+          </a>
+        </Link>
+
       ))}
     </nav>
   )

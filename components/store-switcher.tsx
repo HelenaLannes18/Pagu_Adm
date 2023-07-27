@@ -38,7 +38,7 @@ export default function StoreSwitcher({ className, items = [] }: StoreSwitcherPr
     value: item.id
   }));
 
-  const currentStore = formattedItems.find((item) => item.value === params.storeId);
+  const currentStore = formattedItems.find((item) => item.value === params?.storeId);
 
   const [open, setOpen] = React.useState(false)
 
@@ -55,7 +55,7 @@ export default function StoreSwitcher({ className, items = [] }: StoreSwitcherPr
           size="sm"
           role="combobox"
           aria-expanded={open}
-          aria-label="Select a store"
+          aria-label="Selecione uma loja"
           className={cn("w-[200px] justify-between", className)}
         >
           <Store className="mr-2 h-4 w-4" />
@@ -67,7 +67,7 @@ export default function StoreSwitcher({ className, items = [] }: StoreSwitcherPr
         <Command>
           <CommandList>
             <CommandInput placeholder="Search store..." />
-            <CommandEmpty>No store found.</CommandEmpty>
+            <CommandEmpty>Nenhuma loja encontrada.</CommandEmpty>
             <CommandGroup heading="Stores">
               {formattedItems.map((store) => (
                 <CommandItem
@@ -99,7 +99,7 @@ export default function StoreSwitcher({ className, items = [] }: StoreSwitcherPr
                 }}
               >
                 <PlusCircle className="mr-2 h-5 w-5" />
-                Create Store
+                Criar Loja
               </CommandItem>
             </CommandGroup>
           </CommandList>
