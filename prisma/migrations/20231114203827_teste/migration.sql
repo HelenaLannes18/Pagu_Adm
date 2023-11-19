@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "Teste" ADD COLUMN     "cep" STRING DEFAULT '';
+ALTER TABLE "Teste" ADD COLUMN     "cidade" STRING DEFAULT '';
+ALTER TABLE "Teste" ADD COLUMN     "complemento" STRING DEFAULT '';
+ALTER TABLE "Teste" ADD COLUMN     "email" STRING DEFAULT '';
+ALTER TABLE "Teste" ADD COLUMN     "estado" STRING DEFAULT '';

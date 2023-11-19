@@ -5,6 +5,7 @@ import { formatter } from "@/lib/utils";
 
 import { ProductsClient } from "./components/client";
 import { ProductColumn } from "./components/columns";
+import { ptBR } from 'date-fns/locale';
 
 const ProductsPage = async ({
   params
@@ -26,18 +27,23 @@ const ProductsPage = async ({
   });
 
   //@ts-ignore
-  const formattedProducts: ProductColumn[] = products.map((item) => ({
+  const formattedProducts: ProductColumn[] = products
+  .map((item) => ({
     id: item.id,
     name: item.name,
     isFeatured: item.isFeatured,
     isPromotioned: item.isPromotioned,
     isArchived: item.isArchived,
     price: formatter.format(item.price.toNumber()),
+    pricepromotional: item.pricepromotional?.toNumber()
+      ? formatter.format(item.pricepromotional.toNumber())
+      : null,
     category: item.category.name,
     size: item.size.name,
     color: item.color.value,
-    createdAt: format(item.createdAt, 'MMMM do, yyyy'),
-  }));
+    createdAt: format(item.createdAt, "'Dia' do MMMM, yyyy", { locale: ptBR }),
+  }))
+  .filter((product) => product.pricepromotional !== null);
 
   return (
     <div className="flex-col">

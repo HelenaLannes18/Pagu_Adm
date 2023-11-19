@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import { ModalProvider } from '@/providers/modal-provider'
 import { ToastProvider } from '@/providers/toast-provider'
 import { ThemeProvider } from '@/providers/theme-provider'
+import { ptBR } from "@clerk/localizations";
 
 import './globals.css'
 
@@ -20,12 +21,21 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <ClerkProvider>
-      <html lang="en">
+    <ClerkProvider
+      localization={ptBR}
+      appearance={{
+        signIn: {
+          variables: {
+            colorPrimary: "#661011",
+            colorText: "black"
+          }
+        },
+      }}>
+      <html lang="pt-br">
         <body className={inter.className}>
-          <ThemeProvider 
-            attribute="class" 
-            defaultTheme="system" 
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
             enableSystem
           >
             <ToastProvider />

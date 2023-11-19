@@ -5,6 +5,7 @@ import { formatter } from "@/lib/utils";
 
 import { OrderColumn } from "./components/columns"
 import { OrderClient } from "./components/client";
+import { ptBR } from 'date-fns/locale';
 
 
 const OrdersPage = async ({
@@ -27,7 +28,7 @@ const OrdersPage = async ({
       createdAt: 'desc'
     }
   });
-
+  //@ts-ignore
   const formattedOrders: OrderColumn[] = orders.map((item) => ({
     id: item.id,
     phone: item.phone,
@@ -37,7 +38,7 @@ const OrdersPage = async ({
       return total + Number(item.product.price)
     }, 0)),
     isPaid: item.isPaid,
-    createdAt: format(item.createdAt, 'MMMM do, yyyy'),
+    createdAt: format(item.createdAt, "'Dia' do MMMM, yyyy", { locale: ptBR }),
   }));
 
   return (

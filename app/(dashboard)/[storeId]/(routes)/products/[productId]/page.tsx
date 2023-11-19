@@ -28,6 +28,7 @@ const ProductPage = async ({
     },
   });
 
+
   const tabelas = await prismadb.tabela.findMany({
     where: {
       storeId: params.storeId,
@@ -39,6 +40,8 @@ const ProductPage = async ({
       storeId: params.storeId,
     },
   });
+
+
 
   return (
     <div className="flex-col">

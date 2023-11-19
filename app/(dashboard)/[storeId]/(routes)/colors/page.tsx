@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import prismadb from "@/lib/prismadb";
 
 import { ColorColumn } from "./components/columns"
+import { ptBR } from 'date-fns/locale';
 import { ColorClient } from "./components/client";
 
 const ColorsPage = async ({
@@ -23,7 +24,7 @@ const ColorsPage = async ({
     id: item.id,
     name: item.name,
     value: item.value,
-    createdAt: format(item.createdAt, 'MMMM do, yyyy'),
+    createdAt: format(item.createdAt, "'Dia' do MMMM, yyyy", { locale: ptBR }),
   }));
 
   return (

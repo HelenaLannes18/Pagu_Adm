@@ -15,6 +15,11 @@ export async function POST(
     const {
       name,
       price,
+      height,
+      width,
+      lenght,
+      weight,
+      pricepromotional,
       categoryId,
       colorId,
       sizeId,
@@ -41,6 +46,26 @@ export async function POST(
       return new NextResponse('Price is required', { status: 400 });
     }
 
+    if (!height) {
+      return new NextResponse('Height is required', { status: 400 });
+    }
+
+    if (!lenght) {
+      return new NextResponse('lenght is required', { status: 400 });
+    }
+
+    if (!height) {
+      return new NextResponse('Height is required', { status: 400 });
+    }
+
+    if (!width) {
+      return new NextResponse('Width is required', { status: 400 });
+    }
+
+    // if (!pricepromotional) {
+    //   return new NextResponse('PricePromotional is required', { status: 400 });
+    // }
+
     if (!categoryId) {
       return new NextResponse('Category id is required', { status: 400 });
     }
@@ -48,6 +73,7 @@ export async function POST(
     if (!colorId) {
       return new NextResponse('Color id is required', { status: 400 });
     }
+
 
     if (!sizeId) {
       return new NextResponse('Size id is required', { status: 400 });
@@ -76,6 +102,11 @@ export async function POST(
       data: {
         name,
         price,
+        height,
+        lenght,
+        width,
+        weight,
+        pricepromotional,
         isFeatured,
         isPromotioned,
         isArchived,
@@ -111,6 +142,9 @@ export async function GET(
     const tabelaId = searchParams.get('tabelaId') || undefined;
     const isFeatured = searchParams.get('isFeatured');
     const isPromotioned = searchParams.get('isPromotioned');
+    const searchQuery = searchParams.get('searchQuery') || '';
+    const minPrice = parseFloat(searchParams.get('minPrice') || '0');
+    const maxPrice = parseFloat(searchParams.get('maxPrice') || '9999');
 
     if (!params.storeId) {
       return new NextResponse('Store id is required', { status: 400 });
@@ -119,6 +153,10 @@ export async function GET(
     const products = await prismadb.product.findMany({
       where: {
         storeId: params.storeId,
+        name: {
+          contains: searchQuery,
+          mode: 'insensitive',
+        },
         categoryId,
         colorId,
         sizeId,
@@ -126,6 +164,10 @@ export async function GET(
         isFeatured: isFeatured ? true : undefined,
         isPromotioned: isPromotioned ? true : undefined,
         isArchived: false,
+        price: {
+          gte: minPrice,
+          lte: maxPrice,
+        },
       },
       include: {
         images: true,

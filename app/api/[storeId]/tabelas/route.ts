@@ -12,7 +12,7 @@ export async function POST(
 
     const body = await req.json();
 
-    const { name } = body;
+    const { name,imageUrl } = body;
 
     if (!userId) {
       return new NextResponse('Unauthenticated', { status: 403 });
@@ -20,6 +20,10 @@ export async function POST(
 
     if (!name) {
       return new NextResponse('Name is required', { status: 400 });
+    }
+
+    if (!imageUrl) {
+      return new NextResponse("Image URL is required", { status: 400 });
     }
 
     if (!params.storeId) {
@@ -40,6 +44,7 @@ export async function POST(
     const tabela = await prismadb.tabela.create({
       data: {
         name,
+        imageUrl,
         storeId: params.storeId,
       },
     });

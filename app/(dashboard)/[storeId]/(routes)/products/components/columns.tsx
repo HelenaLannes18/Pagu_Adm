@@ -8,9 +8,14 @@ export type ProductColumn = {
   id: string
   name: string;
   price: string;
+  height: string;
+  width: string;
+  lenght: string;
+  weight: string;
+  pricepromotional: string;
   category: string;
   size: string;
-  tabela: string;
+  // tabela: string;
   color: string;
   createdAt: string;
   isFeatured: boolean;
@@ -40,6 +45,10 @@ export const columns: ColumnDef<ProductColumn>[] = [
     header: "Preço",
   },
   {
+    accessorKey: "pricepromotional",
+    header: "Preço Promocional",
+  },
+  {
     accessorKey: "category",
     header: "Categoria",
   },
@@ -47,10 +56,10 @@ export const columns: ColumnDef<ProductColumn>[] = [
     accessorKey: "size",
     header: "Tamanho",
   },
-  {
-    accessorKey: "tabela",
-    header: "Tabela",
-  },
+  // {
+  //   accessorKey: "tabela",
+  //   header: "Tabela",
+  // },
   {
     accessorKey: "color",
     header: "Cor",

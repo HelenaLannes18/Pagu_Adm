@@ -32,11 +32,17 @@ const formSchema = z.object({
   name: z.string().min(1),
   images: z.object({ url: z.string() }).array(),
   price: z.coerce.number().min(1),
+  height: z.string().min(1),
+  width: z.string().min(1),
+  lenght: z.string().min(1),
+  weight: z.string().min(1),
+  pricepromotional: z.coerce.number().min(1).optional(),
   categoryId: z.string().min(1),
   colorId: z.string().min(1),
   sizeId: z.string().min(1),
   tabelaId: z.string().min(1),
   isFeatured: z.boolean().default(false).optional(),
+  isPromotioned: z.boolean().default(false).optional(),
   isArchived: z.boolean().default(false).optional()
 });
 
@@ -57,7 +63,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   categories,
   sizes,
   tabelas,
-  colors
+  colors,
 }) => {
   const params = useParams();
   const router = useRouter();
@@ -73,15 +79,22 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const defaultValues = initialData ? {
     ...initialData,
     price: parseFloat(String(initialData?.price)),
+    pricepromotional: parseFloat(String(initialData?.pricepromotional)),
   } : {
     name: '',
     images: [],
     price: 0,
+    height: '',
+    width: '',
+    lenght: '',
+    weight: '',
+    pricepromotional: undefined,
     categoryId: '',
     colorId: '',
     sizeId: '',
     tabelaId: '',
     isFeatured: false,
+    isPromotioned: false,
     isArchived: false,
   }
 
@@ -194,6 +207,44 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             />
             <FormField
               control={form.control}
+              name="isPromotioned"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      // @ts-ignore
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>
+                      Promocional
+                    </FormLabel>
+                    <FormDescription>
+                      Esse produto esta em promoção?
+                    </FormDescription>
+                  </div>
+                </FormItem>
+              )}
+            />
+
+
+            <FormField
+              control={form.control}
+              name="pricepromotional"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Preço Promocional</FormLabel>
+                  <FormControl>
+                    <Input type="number" disabled={loading} placeholder="9.99" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="categoryId"
               render={({ field }) => (
                 <FormItem>
@@ -238,7 +289,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             />
 
 
-
             <FormField
               control={form.control}
               name="colorId"
@@ -257,6 +307,64 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       ))}
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+
+            <FormField
+              control={form.control}
+              name="height"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Altura</FormLabel>
+                  <FormControl>
+                    <Input disabled={loading} placeholder="Altura do produto" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+
+            <FormField
+              control={form.control}
+              name="width"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Largura</FormLabel>
+                  <FormControl>
+                    <Input disabled={loading} placeholder="Largura do produto" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="lenght"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Comprimento</FormLabel>
+                  <FormControl>
+                    <Input disabled={loading} placeholder="Comprimento do produto" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="weight"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Peso</FormLabel>
+                  <FormControl>
+                    <Input disabled={loading} placeholder="Peso do produto" {...field} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

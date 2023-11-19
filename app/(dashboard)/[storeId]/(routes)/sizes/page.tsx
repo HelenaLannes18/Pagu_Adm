@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-
+import { ptBR } from 'date-fns/locale';
 import prismadb from "@/lib/prismadb";
 
 import { SizeColumn } from "./components/columns"
@@ -23,7 +23,7 @@ const SizesPage = async ({
     id: item.id,
     name: item.name,
     value: item.value,
-    createdAt: format(item.createdAt, 'MMMM do, yyyy'),
+    createdAt: format(item.createdAt, "'Dia' do MMMM, yyyy", { locale: ptBR }),
   }));
 
   return (

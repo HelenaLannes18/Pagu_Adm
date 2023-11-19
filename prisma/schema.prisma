@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -29,9 +30,12 @@ model Store {
   categories Category[]  @relation("StoreToCategory")
   products   Product[]   @relation("StoreToProduct")
   sizes      Size[]      @relation("StoreToSize")
+  cupoms     Cupom[]     @relation("StoreToCupom")
   tabelas    Tabela[]    @relation("StoreToTabela")
   colors     Color[]     @relation("StoreToColor")
   orders     Order[]     @relation("StoreToOrder")
+  testes     Teste[]     @relation("StoreToTeste")
+  feedbacks  Feedback[]  @relation("StoreToFeedback")
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 }
@@ -65,55 +69,87 @@ model Category {
 }
 
 model Product {
-  id            String      @id @default(uuid())
-  storeId       String // Foreign Key to Store
-  store         Store       @relation("StoreToProduct", fields: [storeId], references: [id])
-  categoryId    String // Foreign Key to Category
-  category      Category    @relation("CategoryToProduct", fields: [categoryId], references: [id])
-  name          String
-  price         Decimal
-  isFeatured    Boolean     @default(false)
-  isPromotioned Boolean     @default(false)
-  isArchived    Boolean     @default(false)
-  sizeId        String // Foreign Key to Size
-  size          Size        @relation(fields: [sizeId], references: [id])
-  tabelaId      String
-  tabela        Tabela      @relation(fields: [tabelaId], references: [id])
-  colorId       String // Foreign Key to Color
-  color         Color       @relation(fields: [colorId], references: [id])
-  images        Image[] // Relation to Image model
-  orderItems    OrderItem[] // Relation to Order model
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  id               String      @id @default(uuid())
+  storeId          String // Foreign Key to Store
+  store            Store       @relation("StoreToProduct", fields: [storeId], references: [id])
+  categoryId       String // Foreign Key to Category
+  category         Category    @relation("CategoryToProduct", fields: [categoryId], references: [id])
+  name             String
+  price            Decimal
+  pricepromotional Decimal?
+  height           String
+  width            String
+  lenght           String
+  weight           String
+  isFeatured       Boolean     @default(false)
+  isPromotioned    Boolean     @default(false)
+  isArchived       Boolean     @default(false)
+  sizeId           String // Foreign Key to Size
+  size             Size        @relation(fields: [sizeId], references: [id])
+  tabelaId         String
+  tabela           Tabela      @relation(fields: [tabelaId], references: [id])
+  colorId          String // Foreign Key to Color
+  color            Color       @relation(fields: [colorId], references: [id])
+  cupomId          String? // Foreign Key to Cupom
+  cupom            Cupom?      @relation(fields: [cupomId], references: [id])
+  images           Image[] // Relation to Image model
+  orderItems       OrderItem[] // Relation to Order model
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
 
   @@index([storeId])
   @@index([categoryId])
   @@index([sizeId])
+  @@index([cupomId])
   @@index([colorId])
   @@index([tabelaId])
 }
 
 model Order {
-  id                        String      @id @default(uuid())
-  storeId                   String // Foreign Key to Store
-  store                     Store       @relation("StoreToOrder", fields: [storeId], references: [id])
-  orderItems                OrderItem[] // Relation to OrderItem model
-  isPaid                    Boolean     @default(false)
-  phone                     String      @default("")
-  address                   String      @default("")
-  senderName                String?
-  shippingAddressPostalCode String?
-  shippingAddressStreet     String?
-  shippingAddressNumber     String?
-  shippingAddressComplement String?
-  shippingAddressDistrict   String?
-  shippingAddressCity       String?
-  shippingAddressState      String?
-  shippingAddressCountry    String?
-  senderAreaCode            String?
-  senderPhone               String?
-  createdAt                 DateTime    @default(now())
-  updatedAt                 DateTime    @updatedAt
+  id         String      @id @default(uuid())
+  storeId    String // Foreign Key to Store
+  store      Store       @relation("StoreToOrder", fields: [storeId], references: [id])
+  orderItems OrderItem[] // Relation to OrderItem model
+  isPaid     Boolean     @default(false)
+  phone      String?     @default("")
+  address    String?     @default("")
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  @@index([storeId])
+}
+
+model Teste {
+  id          String   @id @default(uuid())
+  storeId     String
+  store       Store    @relation("StoreToTeste", fields: [storeId], references: [id])
+  status      String
+  title       String?
+  user        String?
+  userLast    String?  @default("")
+  address     String?  @default("")
+  productId   String?  @default("")
+  email       String?  @default("")
+  cep         String?  @default("")
+  complemento String?  @default("")
+  cidade      String?  @default("")
+  estado      String?  @default("")
+  unitprice   String?
+  quantity    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([storeId])
+}
+
+model Feedback {
+  id        String   @id @default(uuid())
+  storeId   String
+  store     Store    @relation("StoreToFeedback", fields: [storeId], references: [id])
+  text      String
+  star      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([storeId])
 }
@@ -148,6 +184,7 @@ model Tabela {
   storeId   String
   store     Store     @relation("StoreToTabela", fields: [storeId], references: [id])
   name      String
+  imageUrl  String
   products  Product[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -177,4 +214,17 @@ model Image {
   updatedAt DateTime @updatedAt
 
   @@index([productId])
+}
+
+model Cupom {
+  id        String    @id @default(uuid())
+  storeId   String // Chave estrangeira para Store
+  store     Store     @relation("StoreToCupom", fields: [storeId], references: [id])
+  products  Product[] //chave estrangeira com produtos
+  ticket    String?
+  desconto  String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([storeId])
 }

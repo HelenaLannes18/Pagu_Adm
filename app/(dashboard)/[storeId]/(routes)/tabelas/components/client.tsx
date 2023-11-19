@@ -24,9 +24,9 @@ export const TabelasClient: React.FC<TabelasClientProps> = ({
   return (
     <>
       <div className="flex items-center justify-between">
-        <Heading title={`Tabelas (${data.length})`} description="Controle os tamanhos dos seus produtos" />
+        <Heading title={`Tabelas (${data.length})`} description="Controle os tabelas dos seus produtos" />
         <Button onClick={() => router.push(`/${params.storeId}/tabelas/new`)}>
-          <Plus className="mr-2 h-4 w-4" /> Adicionar novo
+          <Plus className="mr-2 h-4 w-4" /> Adicionar nova
         </Button>
       </div>
       <Separator />

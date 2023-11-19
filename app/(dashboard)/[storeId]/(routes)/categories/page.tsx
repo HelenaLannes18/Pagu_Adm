@@ -4,6 +4,7 @@ import prismadb from "@/lib/prismadb";
 
 import { CategoryColumn } from "./components/columns"
 import { CategoriesClient } from "./components/client";
+import { ptBR } from 'date-fns/locale';
 
 const CategoriesPage = async ({
   params
@@ -26,7 +27,7 @@ const CategoriesPage = async ({
     id: item.id,
     name: item.name,
     billboardLabel: item.billboard.label,
-    createdAt: format(item.createdAt, 'MMMM do, yyyy'),
+    createdAt: format(item.createdAt, "'Dia' do MMMM, yyyy", { locale: ptBR }),
   }));
 
   return (

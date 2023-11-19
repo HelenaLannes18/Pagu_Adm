@@ -34,7 +34,7 @@ export const CellAction: React.FC<CellActionProps> = ({
     try {
       setLoading(true);
       await axios.delete(`/api/${params.storeId}/tabelas/${data.id}`);
-      toast.success('tabela deleted.');
+      toast.success('tabela deletada.');
       router.refresh();
     } catch (error) {
       toast.error('Tenha certeza que você removeu todos os produtos que usam esse tabela antes.');

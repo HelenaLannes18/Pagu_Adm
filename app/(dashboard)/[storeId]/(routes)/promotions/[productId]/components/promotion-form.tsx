@@ -32,6 +32,7 @@ const formSchema = z.object({
   name: z.string().min(1),
   images: z.object({ url: z.string() }).array(),
   price: z.coerce.number().min(1),
+  pricepromotional: z.coerce.number().min(1),
   categoryId: z.string().min(1),
   colorId: z.string().min(1),
   sizeId: z.string().min(1),
@@ -71,10 +72,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const defaultValues = initialData ? {
     ...initialData,
     price: parseFloat(String(initialData?.price)),
+    pricepromotional: parseFloat(String(initialData?.pricepromotional))
   } : {
     name: '',
     images: [],
     price: 0,
+    pricepromotional: 0,
     categoryId: '',
     colorId: '',
     sizeId: '',
@@ -180,6 +183,20 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             <FormField
               control={form.control}
               name="price"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Preço Inicial</FormLabel>
+                  <FormControl>
+                    <Input type="number" disabled={loading} placeholder="9.99" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="pricepromotional"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Preço Promocional</FormLabel>

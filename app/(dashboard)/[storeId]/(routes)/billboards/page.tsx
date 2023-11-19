@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import prismadb from "@/lib/prismadb";
 
 import { BillboardColumn } from "./components/columns"
+import { ptBR } from 'date-fns/locale';
 import { BillboardClient } from "./components/client";
 
 const BillboardsPage = async ({
@@ -23,7 +24,7 @@ const BillboardsPage = async ({
   const formattedBillboards: BillboardColumn[] = billboards.map((item) => ({
     id: item.id,
     label: item.label,
-    createdAt: format(item.createdAt, 'MMMM do, yyyy'),
+    createdAt: format(item.createdAt, "'Dia' do MMMM, yyyy", { locale: ptBR }),
   }));
 
   return (

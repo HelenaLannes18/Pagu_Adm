@@ -28,6 +28,7 @@ export function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElemen
     { path: "/promotions", label: "Promoções" },
     { path: "/tabelas", label: "Tabelas" },
     { path: "/orders", label: "Pedidos" },
+    { path: "/cupoms", label: "Cupons" },
     { path: "/settings", label: "Configurações" },
   ];
 

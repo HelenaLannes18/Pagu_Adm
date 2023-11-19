@@ -83,6 +83,11 @@ export async function PATCH(
     const {
       name,
       price,
+      height,
+      width,
+      lenght,
+      weight,
+      pricepromotional,
       categoryId,
       images,
       colorId,
@@ -113,6 +118,26 @@ export async function PATCH(
       return new NextResponse('Price is required', { status: 400 });
     }
 
+    if (!height) {
+      return new NextResponse('Height is required', { status: 400 });
+    }
+
+    if (!lenght) {
+      return new NextResponse('lenght is required', { status: 400 });
+    }
+
+    if (!height) {
+      return new NextResponse('Height is required', { status: 400 });
+    }
+
+    if (!width) {
+      return new NextResponse('Width is required', { status: 400 });
+    }
+
+    // if (!pricepromotional) {
+    //   return new NextResponse('PricePromotional is required', { status: 400 });
+    // }
+
     if (!categoryId) {
       return new NextResponse('Category id is required', { status: 400 });
     }
@@ -120,6 +145,7 @@ export async function PATCH(
     if (!colorId) {
       return new NextResponse('Color id is required', { status: 400 });
     }
+
 
     if (!sizeId) {
       return new NextResponse('Size id is required', { status: 400 });
@@ -147,6 +173,11 @@ export async function PATCH(
       data: {
         name,
         price,
+        height,
+        width,
+        lenght,
+        weight,
+        pricepromotional,
         categoryId,
         colorId,
         sizeId,
